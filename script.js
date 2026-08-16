@@ -1,69 +1,11 @@
-const products = [
-  {id:1,name:"Pearl Drop Earrings",category:"earrings",price:499,icon:"💎"},
-  {id:2,name:"Rose Gold Hoops",category:"earrings",price:399,icon:"✨"},
-  {id:3,name:"Classic Stone Bangles",category:"bangles",price:699,icon:"💫"},
-  {id:4,name:"Floral Gold Bangles",category:"bangles",price:799,icon:"🌸"},
-  {id:5,name:"Royal Necklace Set",category:"necksets",price:1499,icon:"💖"},
-  {id:6,name:"Elegant Pearl Neck Set",category:"necksets",price:1199,icon:"👑"}
-];
-
-let cart = [];
-
-function renderProducts(category="all"){
-  const grid=document.getElementById("productGrid");
-  const list=category==="all"?products:products.filter(p=>p.category===category);
-  grid.innerHTML=list.map(p=>`
-    <article class="product">
-      <div class="product-image">${p.icon}</div>
-      <div class="product-info">
-        <div class="category">${p.category}</div>
-        <h3>${p.name}</h3>
-        <div class="price">₹${p.price.toLocaleString("en-IN")}</div>
-        <button class="add-btn" onclick="addToCart(${p.id})">Add to Cart</button>
-      </div>
-    </article>`).join("");
-}
-
-function filterProducts(category,btn){
-  document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
-  renderProducts(category);
-}
-
-function addToCart(id){
-  const item=products.find(p=>p.id===id);
-  const existing=cart.find(p=>p.id===id);
-  if(existing) existing.qty++;
-  else cart.push({...item,qty:1});
-  updateCart();
-}
-
-function updateCart(){
-  document.getElementById("cartCount").textContent=cart.reduce((s,p)=>s+p.qty,0);
-  const box=document.getElementById("cartItems");
-  if(!cart.length){box.innerHTML="<p>Your cart is empty.</p>";}
-  else box.innerHTML=cart.map(p=>`
-    <div class="cart-row">
-      <span>${p.name} × ${p.qty}</span>
-      <span>₹${(p.price*p.qty).toLocaleString("en-IN")} <button class="remove" onclick="removeFromCart(${p.id})">Remove</button></span>
-    </div>`).join("");
-  document.getElementById("cartTotal").textContent=cart.reduce((s,p)=>s+p.price*p.qty,0).toLocaleString("en-IN");
-}
-
-function removeFromCart(id){cart=cart.filter(p=>p.id!==id);updateCart();}
-function showCart(){updateCart();document.getElementById("cartModal").classList.remove("hidden");}
-function closeCart(){document.getElementById("cartModal").classList.add("hidden");}
-
-function checkout(){
-  if(!cart.length){alert("Your cart is empty.");return;}
-  alert("Thank you! Your order request has been received. Connect this button to a payment/order backend for real purchases.");
-}
-
-function sendMessage(e){
-  e.preventDefault();
-  alert("Thank you, " + document.getElementById("name").value + "! Your message has been received.");
-  e.target.reset();
-}
-
-renderProducts();
-updateCart();
+const P=[['Pearl Drop Earrings','earrings',499,699,'💎'],['Rose Gold Hoops','earrings',399,599,'✨'],['Classic Stone Bangles','bangles',699,899,'💫'],['Floral Gold Bangles','bangles',799,999,'🌸'],['Royal Necklace Set','necksets',1499,1999,'💖'],['Elegant Pearl Neck Set','necksets',1199,1599,'👑'],['Crystal Stud Earrings','earrings',449,649,'💠'],['Party Wear Bangle Set','bangles',899,1199,'🌟']];let C=JSON.parse(localStorage.ggC||'[]'),O=JSON.parse(localStorage.ggO||'[]');
+function render(a=P){grid.innerHTML=a.map((p,i)=>`<article class="card"><div class="pic">${p[4]}</div><div class="info"><small>${p[1]}</small><h3>${p[0]}</h3><div class="price">₹${p[2]} <span class="old">₹${p[3]}</span></div><div class="actions"><button class="view" onclick="detail(${i})">View</button><button class="add" onclick="add(${i})">Add</button></div></div></article>`).join('')}
+function cat(c){heading.textContent=c==='all'?'Featured Products':c;render(c==='all'?P:P.filter(x=>x[1]===c));location.hash='products'}function search(){let q=document.getElementById('q').value.toLowerCase();render(P.filter(x=>x.join(' ').toLowerCase().includes(q)));heading.textContent=q?'Search Results':'Featured Products'}
+function add(i){let x=C.find(a=>a.i===i);x?x.q++:C.push({i,q:1});localStorage.ggC=JSON.stringify(C);update();alert('Added to cart!')}function update(){count.textContent=C.reduce((a,x)=>a+x.q,0)}function show(t){modal.style.display='grid';content.innerHTML=t}function close(){modal.style.display='none'}
+function detail(i){let p=P[i];show(`<h2>${p[4]} ${p[0]}</h2><p>⭐ 4.5/5 • In stock</p><p>Beautiful ${p[1]} designed for everyday and special occasions.</p><h2>₹${p[2]}</h2><button class="wide" onclick="add(${i});close()">Add to Cart</button>`)}
+function cart(){let total=0;let s=C.length?C.map(x=>{let p=P[x.i],v=p[2]*x.q;total+=v;return `<div class="line"><span>${p[0]} × ${x.q}</span><b>₹${v}</b></div>`}).join(''):'<p>Your cart is empty.</p>';show(`<h2>Shopping Cart 🛒</h2>${s}<h2>Total: ₹${total}</h2><button class="wide" onclick="checkout()">Proceed to Checkout</button>`)}
+function login(){show(`<h2>Login / Sign up</h2><input class="field" id="name" placeholder="Your name"><input class="field" placeholder="Email"><input class="field" type="password" placeholder="Password"><button class="wide" onclick="localStorage.ggU=name.value;alert('Welcome!');close()">Continue</button>`)}
+function checkout(){if(!C.length)return alert('Cart is empty');if(!localStorage.ggU){close();login();return}let total=C.reduce((a,x)=>a+P[x.i][2]*x.q,0);O.push({id:'GG'+Date.now().toString().slice(-6),total,status:'Order placed'});localStorage.ggO=JSON.stringify(O);C=[];localStorage.ggC='[]';update();close();alert('Demo order placed successfully!')}
+function orders(){show(`<h2>My Orders</h2>${O.length?O.map(x=>`<div class="line"><span>${x.id}<br>${x.status}</span><b>₹${x.total}</b></div>`).join(''):'<p>No orders yet.</p>'}`)}
+function admin(){show(`<h2>Admin Panel</h2><p>Products: ${P.length}</p><p>Orders: ${O.length}</p><p>Cart items: ${C.reduce((a,x)=>a+x.q,0)}</p><hr>${P.map(x=>`<div class="line"><span>${x[0]}</span><b>₹${x[2]}</b></div>`).join('')}<p><small>This is a front-end demo. A real business requires a secure backend/database and payment gateway.</small></p>`)}
+render();update();
