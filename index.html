@@ -1,8 +1,52 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Girls Gallery</title><link rel="stylesheet" href="style.css"></head><body>
-<header><a class="logo" href="#">Girls<span>Gallery</span></a><div class="search"><input id="q" placeholder="Search products..." oninput="search()"><button onclick="search()">🔍</button></div><button onclick="login()">👤 Login</button><button onclick="cart()">🛒 Cart (<b id="count">0</b>)</button></header>
-<nav><a href="#home">Home</a><a href="#categories">Categories</a><a href="#products">Products</a><a href="#" onclick="orders()">My Orders</a><a href="#" onclick="admin()">Admin</a></nav>
-<section id="home" class="hero"><div><small>GIRLS GALLERY • ONLINE STORE</small><h1>Beautiful styles.<br><span>Made for you.</span></h1><p>Shop earrings, bangles and neck sets for everyday and special occasions.</p><a class="buy" href="#products">Shop Now →</a></div><div class="heroart">💎<strong>NEW COLLECTION</strong><small>Starting from ₹399</small></div></section>
-<section id="categories"><small>SHOP BY CATEGORY</small><h2>Find your style</h2><div class="cats"><button onclick="cat('earrings')">💎<b>Earrings</b><small>Elegant styles</small></button><button onclick="cat('bangles')">✨<b>Bangles</b><small>Classic designs</small></button><button onclick="cat('necksets')">💖<b>Neck Sets</b><small>Special occasions</small></button><button onclick="cat('all')">🛍️<b>All Products</b><small>Explore all</small></button></div></section>
-<section id="products"><small>OUR STORE</small><h2 id="heading">Featured Products</h2><div id="grid"></div></section>
-<div id="modal" class="modal" onclick="if(event.target.id==='modal')close()"><div class="box"><button class="x" onclick="close()">×</button><div id="content"></div></div></div>
-<footer>Girls<span>Gallery</span> • © 2026</footer><script src="script.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Girls Gallery | Fashion • Beauty • Accessories • Gifts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar"><div>♥ Welcome to Girls Gallery</div><div>🚚 Free Shipping on orders above ₹999</div><div>Follow Us : <span>◎</span> <span>f</span> <span>◉</span></div></header>
+<nav class="nav">
+  <div class="brandWrap"><img src="assets/logo-reference.jpg" class="logoImg" alt="Girls Gallery logo"><div class="brandText"><b>Girls</b><strong>GALLERY</strong><small>FASHION • BEAUTY • ACCESSORIES • GIFTS</small></div></div>
+  <button class="menu" onclick="toggleMenu()">☰</button>
+  <div id="navlinks" class="navlinks">
+    <button class="navActive" onclick="showHome()">HOME</button>
+    <button onclick="showCategory('all')">SHOP⌄</button>
+    <button onclick="showCategory('all')">CATEGORIES⌄</button>
+    <button onclick="showCategory('all')">NEW ARRIVALS</button>
+    <button onclick="showSection('about')">ABOUT US</button>
+    <button onclick="showSection('contact')">CONTACT US</button>
+  </div>
+  <div class="actions"><button class="iconBtn" onclick="focusSearch()">⌕</button><button class="bagBtn" onclick="openCart()">♧ <b id="cartCount">0</b></button><button class="loginBtn" onclick="showSection('login')">👤 Login</button></div>
+</nav>
+<div class="mobileSearch"><input id="search" placeholder="Search products..." oninput="searchProducts(this.value)"><button onclick="searchProducts(document.getElementById('search').value)">⌕</button></div>
+<main>
+<section id="home" class="page active">
+  <div class="hero"><img src="assets/hero-banner.jpg" alt="Girls Gallery collection"><div class="heroOverlay"><p>WELCOME TO</p><h1>GIRLS<br><em>Gallery</em>♡</h1><div class="heroRule"></div><small>FASHION • BEAUTY • ACCESSORIES • GIFTS</small><strong>Your Style, Your Story</strong><button onclick="showCategory('all')">SHOP NOW <span>→</span></button></div></div>
+  <div class="trust"><div><span>♕</span><b>BEST QUALITY</b><small>Premium Quality<br>Products</small></div><div><span>▣</span><b>FAST DELIVERY</b><small>Quick & Safe<br>Delivery</small></div><div><span>♢</span><b>SECURE PAYMENT</b><small>100% Safe &<br>Secure</small></div><div><span>♧</span><b>CUSTOMER SUPPORT</b><small>We're Here to<br>Help You</small></div></div>
+  <section class="catSection"><div class="sectionTitle"><i></i><h2>SHOP BY <span>CATEGORY</span></h2><i></i></div><div class="categories">
+    <button onclick="showCategory('earrings')"><img src="assets/bangles-designer.jpg"><b>EARRINGS</b><span>SHOP NOW</span></button>
+    <button onclick="showCategory('necksets')"><img src="assets/bangles-gold.jpg"><b>NECK SETS</b><span>SHOP NOW</span></button>
+    <button onclick="showCategory('bangles')"><img src="assets/bangles-colourful.jpg"><b>BANGLES</b><span>SHOP NOW</span></button>
+    <button onclick="showCategory('beauty')"><div class="catIcon">💄</div><b>BEAUTY</b><span>SHOP NOW</span></button>
+    <button onclick="showCategory('gifts')"><div class="catIcon">🎁</div><b>GIFTS</b><span>SHOP NOW</span></button>
+  </div></section>
+  <section class="arrival"><div class="arrivalPromo"><div><h2>NEW ARRIVALS ♥</h2><h3>Trendy Styles,<br>Just For You!</h3><button onclick="showCategory('all')">EXPLORE NOW →</button></div><img src="assets/bangles-pink.jpg"></div><div class="waPromo"><div class="waIcon">◉</div><h3>ORDER ON<br><span>WHATSAPP</span></h3><p>Easy Ordering<br>Just a Click Away!</p><a id="waHome" target="_blank">CHAT NOW ☎</a></div></section>
+  <section class="contactStrip"><div>⌖<b>OUR ADDRESS</b><small>Prakash Nagar<br>Near Lassi Love Shop</small></div><div>☎<b>CALL US</b><small>9100686263</small></div><div>✉<b>EMAIL US</b><small>girlsgallery@example.com</small></div><div>◷<b>SHOP TIMING</b><small>Mon - Sat<br>10:00 AM to 9:00 PM</small></div></section>
+</section>
+<section id="shop" class="page"><div class="sectionHead"><div><p class="eyebrow">GIRLS GALLERY</p><h1 id="shopTitle">All Products</h1></div><button onclick="showHome()">← Home</button></div><div id="productGrid" class="grid"></div></section>
+<section id="product" class="page"><div id="productDetail"></div></section>
+<section id="login" class="page"><div class="panel narrow"><button class="panelClose" onclick="showHome()">×</button><p class="eyebrow">WELCOME BACK</p><h1>Login / Sign up</h1><input id="loginName" placeholder="Your name"><input id="loginEmail" type="email" placeholder="Email"><input id="loginPassword" type="password" placeholder="Password"><button class="primary" onclick="login()">Continue</button><p id="loginMsg"></p></div></section>
+<section id="orders" class="page"><div class="panel"><p class="eyebrow">MY ACCOUNT</p><h1>My Orders</h1><div id="ordersList"></div></div></section>
+<section id="feedback" class="page"><div class="panel narrow"><p class="eyebrow">WE VALUE YOU</p><h1>Customer Feedback</h1><input id="fbName" placeholder="Your name"><select id="fbRating"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select><textarea id="fbText" placeholder="Tell us about your experience"></textarea><button class="primary" onclick="saveFeedback()">Submit Feedback</button><div id="feedbackList"></div></div></section>
+<section id="about" class="page"><div class="panel"><p class="eyebrow">OUR STORY</p><h1>About Girls Gallery</h1><p>Fashion, beauty, accessories and gifts — thoughtfully brought together for you.</p><p>We are a local store in Prakash Nagar, offering stylish jewellery and accessories with easy WhatsApp ordering.</p></div></section>
+<section id="contact" class="page"><div class="panel"><p class="eyebrow">GET IN TOUCH</p><h1>Contact Us</h1><p>📍 <b>Prakash Nagar, near Lassi Love Shop</b></p><p>📞 <b>9100686263</b></p><a class="primary inline" id="waContact" target="_blank">Order / Enquire on WhatsApp</a></div></section>
+<section id="admin" class="page"><div class="panel"><p class="eyebrow">STORE MANAGEMENT</p><h1>Admin Panel</h1><p class="warning">This GitHub Pages version stores demo orders and feedback in the browser. A secure cloud database can be connected in the next stage.</p><h3>Order requests</h3><div id="adminOrders"></div><h3>Customer feedback</h3><div id="adminFeedback"></div></div></section>
+</main>
+<div id="cartModal" class="modal"><div class="modalCard"><button class="close" onclick="closeCart()">×</button><p class="eyebrow">YOUR SHOPPING BAG</p><h2>Your Cart</h2><div id="cartItems"></div><h2 id="cartTotal">Total: ₹0</h2><button class="primary full" onclick="checkout()">Proceed to Order</button></div></div>
+<footer><div class="footerBrand">Girls <span>Gallery</span></div><p>FASHION • BEAUTY • ACCESSORIES • GIFTS</p><div class="footerLinks"><button onclick="showHome()">Home</button><button onclick="showCategory('all')">Shop</button><button onclick="showSection('feedback')">Feedback</button><button onclick="showSection('contact')">Contact Us</button><button onclick="showSection('admin')">Admin</button></div><p>© 2026 Girls Gallery. All Rights Reserved.</p></footer>
+<script src="script.js"></script>
+</body></html>
